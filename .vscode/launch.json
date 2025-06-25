@@ -1,0 +1,23 @@
+{
+  "configurations": [
+    {
+      "command": "npm start",
+      "name": "Run npm start",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+
+    {
+      "command": "npm run start:prod",
+      "name": "Run npm start:prod",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run start:dev",
+      "name": "Run npm start:dev",
+      "request": "launch",
+      "type": "node-terminal"
+    }
+  ]
+}
