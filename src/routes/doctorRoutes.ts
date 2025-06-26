@@ -12,20 +12,83 @@ import { Role } from "../Interfaces/common";
 
 const router = Router();
 
-router.use(authMiddleware); // All routes require auth
-router.use(roleMiddleware(Role.ADMIN)); // All routes require admin
+router.use(authMiddleware); // All routes below require authentication
+
 /**
  * @swagger
- * /doctors/raw:
+ * /doctors/all:
  *   get:
- *     summary: Get all doctors (raw list, no pagination)
+ *     summary: Get all doctors with optional search and pagination
  *     tags: [Doctors]
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search doctors by name, specialty, or location
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of items per page
  *     responses:
  *       200:
- *         description: Raw list of all doctors
+ *         description: List of doctors
+ */
+router.get("/all", getAllDoctors); // accessible to both user and admin
+/**
+ * @swagger
+ * /doctors:
+ *   get:
+ *     summary: Get a paginated list of doctors
+ *     tags: [Doctors]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of doctors per page
+ *     responses:
+ *       200:
+ *         description: A paginated list of doctors
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 doctors:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Doctor'
+ *                 total:
+ *                   type: integer
+ *                   example: 50
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 5
  */
 
 router.get("/", getDoctors);
+
+router.use(roleMiddleware(Role.ADMIN)); // All routes require admin
+
 /**
  * @swagger
  * /doctors:
@@ -123,35 +186,5 @@ router.put("/:id", updateDoctor);
  */
 
 router.delete("/:id", deleteDoctor);
-/**
- * @swagger
- * /doctors:
- *   get:
- *     summary: Get all doctors with optional search and pagination
- *     tags: [Doctors]
- *     parameters:
- *       - in: query
- *         name: search
- *         schema:
- *           type: string
- *         description: Search doctors by name, specialty, or location
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
- *         description: Page number for pagination
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           default: 10
- *         description: Number of items per page
- *     responses:
- *       200:
- *         description: List of doctors
- */
-
-router.get("/all", authMiddleware, getAllDoctors);
 
 export default router;

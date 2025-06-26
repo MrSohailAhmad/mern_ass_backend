@@ -17,6 +17,7 @@ const router = Router();
  *   post:
  *     summary: Register a new user
  *     tags: [Auth]
+ *     security: []  # <--- override global security!
  *     requestBody:
  *       required: true
  *       content:
@@ -47,6 +48,7 @@ router.post("/register", register);
  *   post:
  *     summary: Login user
  *     tags: [Auth]
+ *     security: []  # <--- no auth required
  *     requestBody:
  *       required: true
  *       content:
@@ -67,7 +69,9 @@ router.post("/register", register);
  *       400:
  *         description: Invalid credentials
  */
+
 router.post("/login", loginRateLimiter, login);
+
 router.get("/me", authMiddleware, getMe);
 
 /**
