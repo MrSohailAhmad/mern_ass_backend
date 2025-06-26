@@ -45,44 +45,25 @@ router.use(authMiddleware); // All routes below require authentication
 router.get("/all", getAllDoctors); // accessible to both user and admin
 /**
  * @swagger
- * /doctors:
- *   get:
- *     summary: Get a paginated list of doctors
- *     tags: [Doctors]
- *     parameters:
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
- *         description: Page number
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           default: 10
- *         description: Number of doctors per page
- *     responses:
- *       200:
- *         description: A paginated list of doctors
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 doctors:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Doctor'
- *                 total:
- *                   type: integer
- *                   example: 50
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 totalPages:
- *                   type: integer
- *                   example: 5
+ * components:
+ *   schemas:
+ *     Doctor:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         specialty:
+ *           type: string
+ *         availability:
+ *           type: array
+ *           items:
+ *             type: string
+ *         location:
+ *           type: string
+ *         contact:
+ *           type: string
  */
 
 router.get("/", getDoctors);
