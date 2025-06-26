@@ -2,12 +2,6 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import { AuthRequest } from "../middleware/authMiddleware";
 
-/**
- * @desc    Get all users (Admin)
- * @route   GET /api/users
- * @access  Admin
- */
-
 export const getAllUsers = async (req: AuthRequest, res: Response) => {
   try {
     const currentUserId = req.user?.id;
